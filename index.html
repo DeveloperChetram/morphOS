@@ -13,6 +13,71 @@
 
 <body>
   <section id="desktop">
+   <!-- <div id="loader" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 15, 15, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000000000000000;
+">
+  <div style="display: flex; gap: 8px;">
+    <div style="
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      animation: bounce 1s infinite ease-in-out;
+    "></div>
+    <div style="
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      animation: bounce 1s infinite ease-in-out 0.2s;
+    "></div>
+    <div style="
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      animation: bounce 1s infinite ease-in-out 0.4s;
+    "></div>
+    <div style="
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      animation: bounce 1s infinite ease-in-out 0.6s;
+    "></div>
+    <div style="
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      animation: bounce 1s infinite ease-in-out 0.8s;
+    "></div>
+  </div>
+
+  <style>
+    @keyframes bounce {
+      0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.3;
+      }
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</div> -->
 
     <div class="top-nav">
       <div class="nav-text">
@@ -26,17 +91,17 @@
     </div>
     <div class="bottom-nav">
       <div class="taskbar">
-<div class="search" >
-    <i class="fa-solid fa-magnifying-glass" ></i>
+        <div class="search">
+          <i class="fa-solid fa-magnifying-glass" style="cursor: pointer;"></i>
 
-    <input type="text" placeholder="Search" >
-</div>
-<!-- <i class="fa-solid fa-grip-lines-vertical"></i> -->
- <div class="v-line">
+          <input type="text" placeholder="Search">
+        </div>
+        <!-- <i class="fa-solid fa-grip-lines-vertical"></i> -->
+        <div class="v-line">
 
- </div>
+        </div>
         <img src="./assets/icons/Start.svg" id="start" alt="">
-   
+
       </div>
       <div class="taskbar">
         <img src="./assets/icons/taskbar-icon (1).svg" id="textApp" alt="">
@@ -47,7 +112,7 @@
         <img src="./assets/icons/taskbar-icon (6).svg" id="settings" alt="">
         <img src="./assets/icons/npm.svg" alt="">
         <img src="./assets/icons/discord.svg" alt="">
-        <img src="./assets/icons/chrome.svg" alt="">
+        <img src="./assets/icons/chrome.svg" class="chrome"  alt="">
         <img src="./assets/icons/terminal.svg" id="terminal" alt="">
       </div>
       <div class="widgets">
@@ -60,131 +125,173 @@
       </div>
     </div>
     <section class="windows">
-      
-<div class="trash window-template" style="display: none;">
-  <div class="trash-top">
-    <span class="window-title">App Name</span>
-    <div class="navigation">
-      <i class="fa-solid fa-minus minimize-btn"></i>
-      <i class="fa-regular fa-square full-btn"></i>
-      <i class="fa-solid fa-xmark close-btn"></i>
-    </div>
-  </div>
-  <div class="text-content">App Content</div>
-  <!-- <button class="clear-btn">Clear</button> -->
-  <div class="resizer top"></div>
-  <div class="resizer right"></div>
-  <div class="resizer bottom"></div>
-  <div class="resizer left"></div>
-</div>
-<div class="apps">
-  <img src="./assets/icons/Recycle Bin.svg" alt="">
-  <img src="./assets/icons/Microsoft Photos.svg" alt="">
-  <img src="./assets/icons/This PC.svg" alt="">
-  <img src="./assets/icons/File Explorer.svg" alt="">
-  <img src="./assets/icons/chatgpt.svg" alt="">
-  <img src="./assets/icons/chrome.svg" alt="">
-  <img src="./assets/icons/Sheryians_logo_EzwgcppnD.webp" alt="">
-</div>
+
+      <div class="trash window-template" style="display: none;">
+        <div class="trash-top">
+          <span class="window-title">App Name</span>
+          <div class="navigation">
+            <i class="fa-solid fa-minus minimize-btn"></i>
+            <i class="fa-regular fa-square full-btn"></i>
+            <i class="fa-solid fa-xmark close-btn"></i>
+          </div>
+        </div>
+        <div class="text-content">App Content</div>
+        <!-- <button class="clear-btn">Clear</button> -->
+        <div class="resizer top"></div>
+        <div class="resizer right"></div>
+        <div class="resizer bottom"></div>
+        <div class="resizer left"></div>
+      </div>
+      <div class="apps">
+        <img src="./assets/icons/Recycle Bin.svg" alt="">
+        <img src="./assets/icons/Microsoft Photos.svg" alt="">
+        <img src="./assets/icons/This PC.svg" alt="">
+        <img src="./assets/icons/File Explorer.svg" alt="">
+        <img src="./assets/icons/chatgpt.svg" alt="">
+        <img src="./assets/icons/chrome.svg"   alt="">
+        <img src="./assets/icons/Sheryians_logo_EzwgcppnD.webp" id="sheryians"  alt="">
+      </div>
     </section>
     <section class="control-panel-div">
-        <div class="container">
+      <div class="container">
         <!-- Main Control Panel -->
         <div class="control-panel">
-            <!-- Toggle Buttons Grid -->
-            <div class="toggle-grid">
-                <div class="toggle-item active">
-                    <div class="toggle-icon">📶</div>
-                    <span class="toggle-label">Wi-Fi</span>
-                </div>
-                <div class="toggle-item">
-                    <div class="toggle-icon">🔇</div>
-                    <span class="toggle-label">Soundless</span>
-                </div>
-                <div class="toggle-item">
-                    <div class="toggle-icon">📷</div>
-                    <span class="toggle-label">Screenshot</span>
-                </div>
-                <div class="toggle-item">
-                    <div class="toggle-icon">✈️</div>
-                    <span class="toggle-label">Plane Mode</span>
-                </div>
-                <div class="toggle-item">
-                    <div class="toggle-icon">🔄</div>
-                    <span class="toggle-label">Auto-B</span>
-                </div>
-                <div class="toggle-item active">
-                    <div class="toggle-icon">📱</div>
-                    <span class="toggle-label">Bluetooth</span>
-                </div>
-                <div class="toggle-item">
-                    <div class="toggle-icon">🔋</div>
-                    <span class="toggle-label">ECO Mode</span>
-                </div>
-                <div class="toggle-item">
-                    <div class="toggle-icon">🔄</div>
-                    <span class="toggle-label">AeroShare</span>
-                </div>
+          <!-- Toggle Buttons Grid -->
+          <div class="toggle-grid">
+            <div class="toggle-item active">
+              <div class="toggle-icon">📶</div>
+              <span class="toggle-label">Wi-Fi</span>
             </div>
+            <div class="toggle-item">
+              <div class="toggle-icon">🔇</div>
+              <span class="toggle-label">Soundless</span>
+            </div>
+            <div class="toggle-item">
+              <div class="toggle-icon">📷</div>
+              <span class="toggle-label">Screenshot</span>
+            </div>
+            <div class="toggle-item">
+              <div class="toggle-icon">✈️</div>
+              <span class="toggle-label">Plane Mode</span>
+            </div>
+            <div class="toggle-item">
+              <div class="toggle-icon">🔄</div>
+              <span class="toggle-label">Auto-B</span>
+            </div>
+            <div class="toggle-item active">
+              <div class="toggle-icon">📱</div>
+              <span class="toggle-label">Bluetooth</span>
+            </div>
+            <div class="toggle-item">
+              <div class="toggle-icon">🔋</div>
+              <span class="toggle-label">ECO Mode</span>
+            </div>
+            <div class="toggle-item">
+              <div class="toggle-icon">🔄</div>
+              <span class="toggle-label">AeroShare</span>
+            </div>
+          </div>
 
-            <!-- Theme Toggle -->
-            <div class="theme-toggle">
-                <div class="theme-option active">
-                    <span class="theme-icon">☀️</span>
-                    <span class="theme-label">Light Mode</span>
-                </div>
-                <div class="theme-option">
-                    <span class="theme-icon">🌙</span>
-                    <span class="theme-label">Dark Mode</span>
-                </div>
+          <!-- Theme Toggle -->
+          <div class="theme-toggle">
+            <div class="theme-option active">
+              <span class="theme-icon">☀️</span>
+              <span class="theme-label">Light Mode</span>
             </div>
+            <div class="theme-option">
+              <span class="theme-icon">🌙</span>
+              <span class="theme-label">Dark Mode</span>
+            </div>
+          </div>
 
-            <!-- Sliders -->
-            <div class="sliders">
-                <div class="slider-item">
-                    <span class="slider-icon">☀️</span>
-                    <div class="slider">
-                        <div class="slider-track">
-                            <div class="slider-fill" style="width: 85%"></div>
-                            <div class="slider-thumb" style="left: 85%"></div>
-                        </div>
-                    </div>
+          <!-- Sliders -->
+          <div class="sliders">
+            <div class="slider-item">
+              <span class="slider-icon">☀️</span>
+              <div class="slider">
+                <div class="slider-track">
+                  <div class="slider-fill" style="width: 85%"></div>
+                  <div class="slider-thumb" style="left: 85%"></div>
                 </div>
-                <div class="slider-item">
-                    <span class="slider-icon">🔊</span>
-                    <div class="slider">
-                        <div class="slider-track">
-                            <div class="slider-fill" style="width: 90%"></div>
-                            <div class="slider-thumb" style="left: 90%"></div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+            <div class="slider-item">
+              <span class="slider-icon">🔊</span>
+              <div class="slider">
+                <div class="slider-track">
+                  <div class="slider-fill" style="width: 90%"></div>
+                  <div class="slider-thumb" style="left: 90%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <!-- Battery Status -->
-            <div class="battery-status">
-                <span class="battery-icon">🔋</span>
-                <span class="battery-text">100% (Charging)</span>
-            </div>
+          <!-- Battery Status -->
+          <div class="battery-status">
+            <span class="battery-icon">🔋</span>
+            <span class="battery-text">100% (Charging)</span>
+          </div>
         </div>
 
         <!-- Notification Panel -->
         <div class="notification-panel">
-            <div class="notification-header">
-                <div class="notification-icon">🔔</div>
-                <div class="notification-content">
-                    <h3>System notifications</h3>
-                    <p>Welcome back, Villarium user!</p>
-                </div>
-                <div class="notification-time">18:06</div>
+          <div class="notification-header">
+            <div class="notification-icon">🔔</div>
+            <div class="notification-content">
+              <h3>System notifications</h3>
+              <p>Welcome back, Villarium user!</p>
             </div>
+            <div class="notification-time">18:06</div>
+          </div>
         </div>
-    </div>
+      </div>
     </section>
     <section class="start-div">
+      <div class="search-bar">
+        <input type="text" placeholder="Search apps here"  class="start-search">
+      </div>
+      <div class="start-apps-text">
+        <span>Recents</span>
+        <button>All apps</button>
+      </div>
+      <div class="start-apps">
+        <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+         <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+          <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+           <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+            <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+             <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+
+              <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+               <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+                <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+
+                 <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+                  <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+                   <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+                    <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+
+                     <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+                      <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+
+
+                       <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+                        <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+
+                         <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+                          <div class="start-apps-perticular"> <img src="./assets/icons/Recycle Bin.svg" alt=""> <span>Recycle</span></div>
+
+
+        <!-- <img src="./assets/icons/Microsoft Photos.svg" alt="">
+        <img src="./assets/icons/This PC.svg" alt="">
+        <img src="./assets/icons/File Explorer.svg" alt="">
+        <img src="./assets/icons/chatgpt.svg" alt="">
+        <img src="./assets/icons/chrome.svg" alt="">
+        <img src="./assets/icons/Sheryians_logo_EzwgcppnD.webp" alt=""> -->
+      </div>
 
     </section>
-    
+
   </section>
 
 

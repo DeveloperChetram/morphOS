@@ -1,3 +1,18 @@
+
+
+const loader = document.querySelector("#loader")
+window.addEventListener("load", ()=>{
+    setTimeout(()=>{
+        loader.style.display="none"
+
+    },3000)
+})
+
+
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+
 const navBtn = document.querySelector(".nav-icons")
 const cPenel = document.querySelector(".control-panel-div")
 
@@ -16,3 +31,48 @@ navBtn.addEventListener('click', () => {
     }
     toggle = !toggle;
 })
+
+const searchBtn = document.querySelector(".search")
+const startBtn = document.querySelector("#start")
+const startDiv = document.querySelector(".start-div")
+
+let toggle2 = false;
+startBtn.addEventListener('click', () => {
+    if (toggle2) {
+        
+        startDiv.style.opacity = 0;
+        startDiv.style.bottom = "-100vh"
+        
+    } else {
+        
+        startDiv.style.opacity = 1;
+        startDiv.style.bottom = " 5rem"
+    }
+    toggle2 = !toggle2;
+})
+searchBtn.addEventListener('click', () => {
+    if (toggle2) {
+        // cPenel.style.display = "none";
+        // startDiv.style.opacity = 0;
+        // startDiv.style.bottom = "-100vh"
+        
+    } else {
+        // cPenel.style.display = "block";
+        startDiv.style.opacity = 1;
+        startDiv.style.bottom = " 5rem"
+        toggle2 = !toggle2;
+    }
+})
+document.querySelector(".windows").addEventListener("click",()=>{
+    startDiv.style.opacity = 0;
+    startDiv.style.bottom = "-100vh"
+    toggle2 = !toggle2;
+})
+
+
+
+
+
+
+})
+
