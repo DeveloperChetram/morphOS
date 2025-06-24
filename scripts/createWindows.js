@@ -170,6 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
       offsetX = e.clientX - windowEl.offsetLeft;
       offsetY = e.clientY - windowEl.offsetTop;
       windowEl.style.zIndex = 1000000 + windowCounter++;
+      // windowEl.style.transition = ""
 
       preventOverFlow()
     });
@@ -178,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isDragging) {
         windowEl.style.left = `${e.clientX - offsetX}px`;
         windowEl.style.top = `${e.clientY - offsetY}px`;
+        // isFullscreen = !isFullscreen
       }
     });
 
@@ -226,12 +228,15 @@ document.addEventListener("DOMContentLoaded", () => {
       windowEl.style.left = "0";
       windowEl.style.width = "100vw";
       windowEl.style.height = "100vh";
-      windowEl.style.zIndex = 9999;
+      windowEl.style.zIndex = 100000001;
       windowEl.style.borderRadius = "0px";
       const trashTop = windowEl.querySelector('.trash-top');
       if (trashTop) trashTop.style.borderRadius = "0px";
 
       isFullscreen = true;
+      fullBtn.classList.remove("fa-square");
+      fullBtn.classList.add("fa-window-restore");
+
     } else {
       windowEl.style.width = prevState.width;
       windowEl.style.height = prevState.height;
@@ -244,6 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (trashTop) trashTop.style.borderRadius = prevState.trashTopBorderRadius || "10px 10px 0 0";
 
       isFullscreen = false;
+      fullBtn.classList.add("fa-square");
+      fullBtn.classList.remove("fa-window-restore");
     }
   });
 
@@ -255,9 +262,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   const appContent = {
-    chrome:  `<div style="width: 100%; height: 600px; "> <iframe  src="https://www.google.com/search?igu=1" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox=""></iframe>`,
-    sheryians: `<div style="width: 100%; height: 600px; "> <iframe  src="https://sheryians.com/" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox=""></iframe>
-</div>`,
+    chrome:  `<div style="width: 100%; height: 100%; "> <iframe  src="https://www.google.com/search?igu=1" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>`,
+    sheryians: `<div style="width: 100%; height: 100%; "> <iframe  src="https://sheryians.com/" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
+    chatgpt: `<div style="width: 100%; height: 100%; "> <iframe  src="https://chatgpt.com/" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
+    portfolio: `<div style="width: 100%; height: 100%; "> <iframe  src="https://chetram-portfolio.vercel.app" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
+    figma: `<div style="width: 100%; height: 100%; "> <iframe  src="https://www.figma.com/" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
+    github: `<div style="width: 100%; height: 100%; "> <iframe  src="../assets/icons/v2 chetram patel inter.pdf" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
   }
 
 
@@ -284,14 +294,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.querySelector("#textApp").addEventListener("click", () => {
-    createWindow("Task manager", "<span style='color:red; font-size:.8rem'>task manager is not responding</span>");
+    createWindow("Portfolio",`${appContent.portfolio}`);
   });
 
-  document.querySelector(".chrome").addEventListener("click", () => {
-    createWindow("Chrome", `${appContent.chrome}`);
+  document.querySelectorAll(".chrome").forEach((ele)=>{ ele.addEventListener("click", () => {
+    createWindow("Chrome", `${appContent.chrome}`);}) 
   });
   document.querySelector("#sheryians").addEventListener("click", () => {
     createWindow("Sheryians", `${appContent.sheryians}`);
   });
+  document.querySelectorAll(".chatgpt").forEach((e)=>{e.addEventListener("click", () => {
+    createWindow("Chatgpt", `${appContent.chatgpt}`);
+  });
+  })
+  document.querySelectorAll(".figma").forEach((e)=>{e.addEventListener("click", () => {
+    createWindow("Figma", `${appContent.figma}`);
+  });
+  })
+  document.querySelectorAll(".github").forEach((e)=>{e.addEventListener("click", () => {
+    createWindow("Github", `${appContent.github}`);
+  });
+  })
 
 })
