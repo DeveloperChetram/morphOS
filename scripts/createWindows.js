@@ -187,31 +187,8 @@ document.addEventListener("DOMContentLoaded", () => {
       isDragging = false;
     });
 
-  // Buttons
-  minimizeBtn.addEventListener("click", () => {
-    prevState = {
-      width: windowEl.style.width,
-      height: windowEl.style.height,
-      top: windowEl.style.top,
-      left: windowEl.style.left,
-      position: windowEl.style.position,
-      zIndex: windowEl.style.zIndex,
-      borderRadius: windowEl.style.borderRadius,
-      trashTopBorderRadius: windowEl.querySelector('.trash-top').style.borderRadius
-    };
-    windowEl.prevState = prevState;
-    windowEl.style.transition = "transform 0.3s, opacity 0.3s";
-    windowEl.style.transform = "scale(0.1)";
-    windowEl.style.opacity = "0";
-    setTimeout(() => {
-      windowEl.style.pointerEvents = "none";
-      minimizedWindows[appName] = windowEl;
-    }, 300);
-  });
-
-  fullBtn.addEventListener("click", () => {
-    if (!isFullscreen) {
-      // document.querySelector(".bottom-nav").style.zIndex=10000000000
+    // Buttons
+    minimizeBtn.addEventListener("click", () => {
       prevState = {
         width: windowEl.style.width,
         height: windowEl.style.height,
@@ -222,37 +199,60 @@ document.addEventListener("DOMContentLoaded", () => {
         borderRadius: windowEl.style.borderRadius,
         trashTopBorderRadius: windowEl.querySelector('.trash-top').style.borderRadius
       };
+      windowEl.prevState = prevState;
+      windowEl.style.transition = "transform 0.3s, opacity 0.3s";
+      windowEl.style.transform = "scale(0.1)";
+      windowEl.style.opacity = "0";
+      setTimeout(() => {
+        windowEl.style.pointerEvents = "none";
+        minimizedWindows[appName] = windowEl;
+      }, 300);
+    });
 
-      windowEl.style.position = "fixed";
-      windowEl.style.top = "0";
-      windowEl.style.left = "0";
-      windowEl.style.width = "100vw";
-      windowEl.style.height = "100vh";
-      windowEl.style.zIndex = 100000001;
-      windowEl.style.borderRadius = "0px";
-      const trashTop = windowEl.querySelector('.trash-top');
-      if (trashTop) trashTop.style.borderRadius = "0px";
+    fullBtn.addEventListener("click", () => {
+      if (!isFullscreen) {
+        // document.querySelector(".bottom-nav").style.zIndex=10000000000
+        prevState = {
+          width: windowEl.style.width,
+          height: windowEl.style.height,
+          top: windowEl.style.top,
+          left: windowEl.style.left,
+          position: windowEl.style.position,
+          zIndex: windowEl.style.zIndex,
+          borderRadius: windowEl.style.borderRadius,
+          trashTopBorderRadius: windowEl.querySelector('.trash-top').style.borderRadius
+        };
 
-      isFullscreen = true;
-      fullBtn.classList.remove("fa-square");
-      fullBtn.classList.add("fa-window-restore");
+        windowEl.style.position = "fixed";
+        windowEl.style.top = "0";
+        windowEl.style.left = "0";
+        windowEl.style.width = "100vw";
+        windowEl.style.height = "100vh";
+        windowEl.style.zIndex = 100000001;
+        windowEl.style.borderRadius = "0px";
+        const trashTop = windowEl.querySelector('.trash-top');
+        if (trashTop) trashTop.style.borderRadius = "0px";
 
-    } else {
-      windowEl.style.width = prevState.width;
-      windowEl.style.height = prevState.height;
-      windowEl.style.top = prevState.top;
-      windowEl.style.left = prevState.left;
-      windowEl.style.position = prevState.position;
-      windowEl.style.zIndex = prevState.zIndex;
-      windowEl.style.borderRadius = prevState.borderRadius || "10px";
-      const trashTop = windowEl.querySelector('.trash-top');
-      if (trashTop) trashTop.style.borderRadius = prevState.trashTopBorderRadius || "10px 10px 0 0";
+        isFullscreen = true;
+        fullBtn.classList.remove("fa-square");
+        fullBtn.classList.add("fa-window-restore");
 
-      isFullscreen = false;
-      fullBtn.classList.add("fa-square");
-      fullBtn.classList.remove("fa-window-restore");
-    }
-  });
+      } else {
+        windowEl.style.width = prevState.width;
+        windowEl.style.height = prevState.height;
+        windowEl.style.top = prevState.top;
+        windowEl.style.left = prevState.left;
+        windowEl.style.position = prevState.position;
+        windowEl.style.zIndex = prevState.zIndex;
+        windowEl.style.borderRadius = prevState.borderRadius || "10px";
+        const trashTop = windowEl.querySelector('.trash-top');
+        if (trashTop) trashTop.style.borderRadius = prevState.trashTopBorderRadius || "10px 10px 0 0";
+
+        isFullscreen = false;
+        fullBtn.classList.add("fa-square");
+        fullBtn.classList.remove("fa-window-restore");
+      }
+    });
 
 
     closeBtn.addEventListener("click", () => {
@@ -262,58 +262,118 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   const appContent = {
-    chrome:  `<div style="width: 100%; height: 100%; "> <iframe  src="https://www.google.com/search?igu=1" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>`,
+    chrome: `<div style="width: 100%; height: 100%; "> <iframe  src="https://www.google.com/search?igu=1" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>`,
     sheryians: `<div style="width: 100%; height: 100%; "> <iframe  src="https://sheryians.com/" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
     chatgpt: `<div style="width: 100%; height: 100%; "> <iframe  src="https://chatgpt.com/" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
     portfolio: `<div style="width: 100%; height: 100%; "> <iframe  src="https://chetram-portfolio.vercel.app" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
     figma: `<div style="width: 100%; height: 100%; "> <iframe  src="https://www.figma.com/" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
     github: `<div style="width: 100%; height: 100%; "> <iframe  src="../assets/icons/v2 chetram patel inter.pdf" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
+    thispc: `<div style="width: 100%; height: 100%; "> <iframe  src="assets/icons/v2%20chetram%20patel%20inter.pdf" width="100%" height="100%" style="border: none;" loading="lazy"></iframe>" </div>`,
+    terminal: `<div class="fake-terminal">
+    <div class="terminal-body" id="terminalBody"></div>
+  </div>
+
+`,
+    files: `
+      <div class="file-explorer">
+        <div class="file-explorer-sidebar">
+          <ul>
+            <li class="sidebar-item active" data-path="/">This PC</li>
+            <li class="sidebar-item" data-path="/Documents">Documents</li>
+            <li class="sidebar-item" data-path="/Downloads">Downloads</li>
+            <li class="sidebar-item" data-path="/Pictures">Pictures</li>
+            <li class="sidebar-item" data-path="/Music">Music</li>
+          </ul>
+        </div>
+        <div class="file-explorer-main">
+          <div class="file-explorer-toolbar">
+            <span class="current-path">/</span>
+          </div>
+          <div class="file-explorer-content" id="fileExplorerContent">
+            <!-- Files and folders will be rendered here -->
+          </div>
+        </div>
+        <div class="file-explorer-context-menu" id="fileExplorerContextMenu" style="display:none; position:absolute; z-index:99999;">
+          <ul>
+            <li id="newFolderOption">New Folder</li>
+            <li id="deleteOption">Delete</li>
+          </ul>
+        </div>
+      </div>
+    `,
   }
 
 
 
 
 
-  const terminalAppIcon = document.querySelector("#terminal");
-  terminalAppIcon.addEventListener("click", () => {
-    createWindow("Terminal", `<div class='terminal-window'>
-      <div class='terminal-title'>Terminal</div>
-      <div class='terminal-body'>
-        <span class='terminal-user'>patelchetram@gmail.com</span>:~$ 
-        <span class='terminal-command'>developerChetram</span>
-        <span class='label'>OS designed by:</span> astoriaOS Tsunami (64-bit)  
-        <span class='label'>OS developed by:</span> @developerChetram  
-        <span class='label'>Resolution:</span> 1600x900  
-        <span class='label'>Theme:</span> Light Tsunami (Default)  
-        <span class='label'>Icons:</span> Default Light  
-        <span class='label'>Terminal:</span> cascade1-terminal  
-        <span class='label'>Terminal font:</span> astoriaOS  
-        <span class='label'>Memory:</span> 4096 MB  
-      </div>
-    </div>`);
+  const terminalAppIcons = document.querySelectorAll(".terminal");
+  terminalAppIcons.forEach((icon) => {
+    icon.addEventListener("click", () => {
+      createWindow("Terminal", `${appContent.terminal}`);
+      setTimeout(() => {
+        if (window.initTerminal) window.initTerminal();
+      }, 0);
+    });
   });
 
   document.querySelector("#textApp").addEventListener("click", () => {
-    createWindow("Portfolio",`${appContent.portfolio}`);
+    createWindow("Portfolio", `${appContent.portfolio}`);
   });
 
-  document.querySelectorAll(".chrome").forEach((ele)=>{ ele.addEventListener("click", () => {
-    createWindow("Chrome", `${appContent.chrome}`);}) 
+  document.querySelectorAll(".chrome").forEach((ele) => {
+    ele.addEventListener("click", () => {
+      createWindow("Chrome", `${appContent.chrome}`);
+    })
   });
   document.querySelector("#sheryians").addEventListener("click", () => {
     createWindow("Sheryians", `${appContent.sheryians}`);
   });
-  document.querySelectorAll(".chatgpt").forEach((e)=>{e.addEventListener("click", () => {
-    createWindow("Chatgpt", `${appContent.chatgpt}`);
-  });
+  document.querySelectorAll(".chatgpt").forEach((e) => {
+    e.addEventListener("click", () => {
+      createWindow("Chatgpt", `${appContent.chatgpt}`);
+    });
   })
-  document.querySelectorAll(".figma").forEach((e)=>{e.addEventListener("click", () => {
-    createWindow("Figma", `${appContent.figma}`);
-  });
+  document.querySelectorAll(".figma").forEach((e) => {
+    e.addEventListener("click", () => {
+      createWindow("Figma", `${appContent.figma}`);
+    });
   })
-  document.querySelectorAll(".github").forEach((e)=>{e.addEventListener("click", () => {
-    createWindow("Github", `${appContent.github}`);
-  });
+  document.querySelectorAll(".github").forEach((e) => {
+    e.addEventListener("click", () => {
+      createWindow("Github", `${appContent.github}`);
+    });
+  })
+  document.querySelectorAll(".pdf").forEach((e) => {
+    e.addEventListener("click", () => {
+      createWindow("Resume", `${appContent.thispc}`);
+    });
   })
 
+  const fileExplorerIcon = document.querySelectorAll('.File');
+  if (fileExplorerIcon) {
+    fileExplorerIcon.forEach((fileExplorerIcon)=>{
+      fileExplorerIcon.addEventListener('click', () => {
+        createWindow('File Explorer', appContent.files);
+        setTimeout(() => {
+          if (window.initFileExplorer) window.initFileExplorer();
+        }, 0);
+      });
+    })
+  }
+  const This = document.querySelectorAll('.This');
+  if (This) {
+    This.forEach((This)=>{
+      This.addEventListener('click', () => {
+        createWindow('This Pc', appContent.files);
+        setTimeout(() => {
+          if (window.initFileExplorer) window.initFileExplorer();
+        }, 0);
+      });
+    })
+  }
+
+
+
+  
 })

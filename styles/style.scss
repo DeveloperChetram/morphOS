@@ -273,14 +273,15 @@ html {
 
         .apps {
             // width: 100%;
-            height: 100%;
-            display: grid;
-            height: 90%;
-            // flex-wrap: wrap;
-            grid-template-rows: repeat(auto-fit, minmax(60px, 1fr));
-            // flex-direction: column;
-            gap: 20px;
-            padding: 20px;
+  height: 90vh; /* leave space for bottom nav */
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+  align-content: flex-start; /* wraps into new column */
+  overflow: hidden;
 
             img {
                 cursor: pointer;
@@ -460,4 +461,217 @@ body.fullscreen-active .bottom-nav {
 }
 
 
+    .fake-terminal {
+      width: 100%;
+      height: 100vh;
+      padding: 1rem;
+      overflow-y: auto;
+      background: #000 !important;
+    }
 
+    .terminal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      background: #000 !important;
+      color: #e5e5e5 !important;
+    }
+
+    .line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      color: #e5e5e5 !important;
+    }
+
+    .user {
+      color: #00ff88 !important;
+      margin-right: 0.4rem;
+    }
+
+    .terminal-input {
+      background: transparent !important;
+      border: none;
+      color: #e5e5e5 !important;
+      font: inherit;
+      outline: none;
+      flex: 1;
+      min-width: 100px;
+      caret-color: #00ff88;
+    }
+
+    .terminal-input::placeholder {
+      color: #555 !important;
+    }
+
+    .output {
+      margin-left: 1rem;
+      white-space: pre-wrap;
+      color: #b5e853 !important;
+    }
+
+// Windows 11 File Explorer styles - DARK THEME
+.file-explorer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #181a20;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  overflow: hidden;
+  font-family: 'Segoe UI', 'Inter', sans-serif;
+}
+
+.file-explorer-sidebar {
+  width: 180px;
+  background: #23242a;
+  border-right: 1px solid #23242a;
+  padding: 18px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 8px 0 rgba(0,0,0,0.03);
+}
+.file-explorer-sidebar ul {
+  list-style: none;
+  padding: 0 0 0 10px;
+  margin: 0;
+}
+.file-explorer-sidebar .sidebar-item {
+  padding: 10px 18px;
+  border-radius: 8px 0 0 8px;
+  margin-bottom: 4px;
+  color: #bfc7d5;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.file-explorer-sidebar .sidebar-item.active,
+.file-explorer-sidebar .sidebar-item:hover {
+  background: #223c5e;
+  color: #4f9cff;
+}
+
+.file-explorer-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.file-explorer-toolbar {
+  height: 44px;
+  background: #23242a;
+  border-bottom: 1px solid #23242a;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  font-size: 1rem;
+  color: #bfc7d5;
+  font-weight: 500;
+}
+.file-explorer-content {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 24px 18px;
+  background: #181a20;
+  overflow-y: auto;
+  min-height: 0;
+}
+.file-explorer-item {
+  width: 110px;
+  height: 110px;
+  background: #23242a;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.98rem;
+  color: #bfc7d5;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+  position: relative;
+  user-select: none;
+}
+.file-explorer-item:hover, .file-explorer-item.selected {
+  background: #223c5e;
+  color: #4f9cff;
+  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
+}
+
+.file-explorer-context-menu {
+  background: #23242a;
+  border: 1px solid #23242a;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
+  min-width: 140px;
+  z-index: 99999;
+  padding: 4px 0;
+}
+.file-explorer-context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.file-explorer-context-menu li {
+  padding: 10px 18px;
+  cursor: pointer;
+  color: #bfc7d5;
+  border-radius: 6px;
+  transition: background 0.18s, color 0.18s;
+}
+.file-explorer-context-menu li:hover {
+  background: #223c5e;
+  color: #4f9cff;
+}
+
+// File preview modal - dark
+.file-preview-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.file-preview-content {
+  background: #23242a;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  padding: 32px 40px;
+  min-width: 320px;
+  min-height: 120px;
+  max-width: 80vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+.file-preview-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.18s;
+}
+.file-preview-close:hover {
+  color: #4f9cff;
+}
+.file-preview-filename {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+  color: #4f9cff;
+}
+.file-preview-body {
+  color: #bfc7d5;
+  font-size: 1rem;
+  word-break: break-all;
+}
