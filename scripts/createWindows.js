@@ -1,11 +1,7 @@
+import { initFileManager } from './fileManager.js';
+
 document.addEventListener("DOMContentLoaded", () => {
-
-
-
-
   let windowCounter = 0;
-
-  // Store minimized windows by app name
   const minimizedWindows = {};
 
   function restoreWindow(appName) {
@@ -31,9 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 300);
   }
 
-  function createWindow(appName, content = "") {
-    // Restore if minimized
-    if (minimizedWindows[appName]) {
+  function createWindow(appName, content = "", options = {}) {
+    if (!options.allowMultiple && minimizedWindows[appName]) {
       restoreWindow(appName);
       return;
     }
@@ -42,18 +37,16 @@ document.addEventListener("DOMContentLoaded", () => {
     clone.classList.remove("window-template");
     clone.style.display = "block";
     clone.classList.add("app-window");
-    clone.setAttribute("data-app", appName);
-
+    const uniqueAppName = `${appName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    clone.setAttribute("data-app", uniqueAppName);
 
     const offset = Math.random() * 40;
     const baseLeft = 100 + (windowCounter * offset);
     const baseTop = 100 + (windowCounter * offset);
-
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    const windowWidth = 500;
-    const windowHeight = 300;
-
+    const windowWidth = 800;
+    const windowHeight = 500;
     const finalLeft = Math.min(baseLeft, screenWidth - windowWidth - 20);
     const finalTop = Math.min(baseTop, screenHeight - windowHeight - 10);
 
@@ -65,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector(".windows").appendChild(clone);
     initWindow(clone, appName);
-
     windowCounter++;
+    return clone;
   }
 
   function preventOverFlow() {
@@ -108,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       windowEl.style.top = "0px";
     }
   }
+
   function initWindow(windowEl, appName) {
     const resizers = windowEl.querySelectorAll(".resizer");
     const dragBar = windowEl.querySelector(".trash-top");
@@ -115,10 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const fullBtn = windowEl.querySelector(".full-btn");
     const closeBtn = windowEl.querySelector(".close-btn");
 
-
     let active = null, startX, startY, startWidth, startHeight, startTop, startLeft;
     let isFullscreen = false;
     let prevState = {};
+
     function resize(e) {
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
@@ -162,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-
     let isDragging = false, offsetX = 0, offsetY = 0;
 
     dragBar.addEventListener("mousedown", e => {
@@ -170,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
       offsetX = e.clientX - windowEl.offsetLeft;
       offsetY = e.clientY - windowEl.offsetTop;
       windowEl.style.zIndex = 1000000 + windowCounter++;
-      // windowEl.style.transition = ""
 
       preventOverFlow()
     });
@@ -179,7 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isDragging) {
         windowEl.style.left = `${e.clientX - offsetX}px`;
         windowEl.style.top = `${e.clientY - offsetY}px`;
-        // isFullscreen = !isFullscreen
       }
     });
 
@@ -187,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
       isDragging = false;
     });
 
-    // Buttons
     minimizeBtn.addEventListener("click", () => {
       prevState = {
         width: windowEl.style.width,
@@ -211,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fullBtn.addEventListener("click", () => {
       if (!isFullscreen) {
-        // document.querySelector(".bottom-nav").style.zIndex=10000000000
         prevState = {
           width: windowEl.style.width,
           height: windowEl.style.height,
@@ -236,7 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
         isFullscreen = true;
         fullBtn.classList.remove("fa-square");
         fullBtn.classList.add("fa-window-restore");
-
       } else {
         windowEl.style.width = prevState.width;
         windowEl.style.height = prevState.height;
@@ -254,12 +242,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-
     closeBtn.addEventListener("click", () => {
       windowEl.remove();
     });
   }
-
 
   const appContent = {
     chrome: `<div style="width: 100%; height: 100%; "> <iframe  src="https://www.google.com/search?igu=1" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>`,
@@ -268,51 +254,61 @@ document.addEventListener("DOMContentLoaded", () => {
     portfolio: `<div style="width: 100%; height: 100%; "> <iframe  src="https://chetram-portfolio.vercel.app" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
     figma: `<div style="width: 100%; height: 100%; "> <iframe  src="https://www.figma.com/" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
     github: `<div style="width: 100%; height: 100%; "> <iframe  src="../assets/icons/v2 chetram patel inter.pdf" width="100%" height="100%"  style="border: none;"  loading="lazy" sandbox="allow-forms allow-scripts allow-same-origin"></iframe></div>`,
-    thispc: `<div style="width: 100%; height: 100%; "> <iframe  src="assets/icons/v2%20chetram%20patel%20inter.pdf" width="100%" height="100%" style="border: none;" loading="lazy"></iframe>" </div>`,
-    terminal: `<div class="fake-terminal">
-    <div class="terminal-body" id="terminalBody"></div>
-  </div>
-
-`,
-    files: `
-      <div class="file-explorer">
-        <div class="file-explorer-sidebar">
-          <ul>
-            <li class="sidebar-item active" data-path="/">This PC</li>
-            <li class="sidebar-item" data-path="/Documents">Documents</li>
-            <li class="sidebar-item" data-path="/Downloads">Downloads</li>
-            <li class="sidebar-item" data-path="/Pictures">Pictures</li>
-            <li class="sidebar-item" data-path="/Music">Music</li>
-          </ul>
-        </div>
-        <div class="file-explorer-main">
-          <div class="file-explorer-toolbar">
-            <span class="current-path">/</span>
-          </div>
-          <div class="file-explorer-content" id="fileExplorerContent">
-            <!-- Files and folders will be rendered here -->
-          </div>
-        </div>
-        <div class="file-explorer-context-menu" id="fileExplorerContextMenu" style="display:none; position:absolute; z-index:99999;">
-          <ul>
-            <li id="newFolderOption">New Folder</li>
-            <li id="deleteOption">Delete</li>
-          </ul>
-        </div>
+    resume: `<div style="width: 100%; height: 100%; "> <iframe  src="assets/icons/v2%20chetram%20patel%20inter.pdf" width="100%" height="100%" style="border: none;" loading="lazy"></iframe>" </div>`,
+    terminal: `<div class="fake-terminal"><div class="terminal-body"></div></div>`,
+    file:`<div class="file-explorer" style="width:100%;height:100%;display:flex;flex-direction:column;">
+      <div class="toolbar" style="padding:5px;display:flex;gap:5px;background:#f1f1f1;">
+        <button class="create-folder">Create</button>
+        <button class="open-btn" disabled>Open</button>
+        <button class="copy-btn" disabled>Copy</button>
+        <button class="cut-btn" disabled>Cut</button>
+        <button class="paste-btn" disabled>Paste</button>
       </div>
-    `,
-  }
+      <div class="address-bar" style="padding:5px;background:#fafafa;border-bottom:1px solid #ddd;">
+        <span class="path"></span>
+      </div>
+      <div class="main" style="display:flex;flex:1;">
+        <aside class="sidebar" style="width:200px;background:#f3f3f3;padding:10px;border-right:1px solid #ddd;"></aside>
+        <section class="file-grid" style="flex:1;padding:10px;display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;"></section>
+      </div>
+    </div>`
+  };
 
+  const drives = {
+    "C:": {
+      "Documents": {
+        "notes.txt": { type: "file" },
+        "resume.pdf": { type: "file" }
+     
+      },
+      "Downloads": {
+        "image.jpg": { type: "file" }
+      },
+      "Pictures": {}
+    },
+    "D: (Projects)": {
+      "Project A": {
+        "source": {},
+        "build": {}
+      },
+      "Project B": {
+        ".vscode": {},
+        ".env": {}
+      }
+    }
+  };
 
-
-
-
+  let terminalWindowCounter = 1;
   const terminalAppIcons = document.querySelectorAll(".terminal");
-  terminalAppIcons.forEach((icon) => {
-    icon.addEventListener("click", () => {
-      createWindow("Terminal", `${appContent.terminal}`);
+  terminalAppIcons.forEach((e) => {
+    e.addEventListener("click", () => {
+      const uniqueTerminalName = `Terminal ${terminalWindowCounter++}`;
+      const newWindow = createWindow(uniqueTerminalName, `${appContent.terminal}`, { allowMultiple: true });
       setTimeout(() => {
-        if (window.initTerminal) window.initTerminal();
+        if (window.initTerminal && newWindow) {
+          const terminalBody = newWindow.querySelector('.terminal-body');
+          if (terminalBody) window.initTerminal(terminalBody);
+        }
       }, 0);
     });
   });
@@ -326,9 +322,10 @@ document.addEventListener("DOMContentLoaded", () => {
       createWindow("Chrome", `${appContent.chrome}`);
     })
   });
-  document.querySelector("#sheryians").addEventListener("click", () => {
+  document.querySelectorAll(".Sheryians").forEach((e)=>{e.addEventListener("click", () => {
     createWindow("Sheryians", `${appContent.sheryians}`);
   });
+})
   document.querySelectorAll(".chatgpt").forEach((e) => {
     e.addEventListener("click", () => {
       createWindow("Chatgpt", `${appContent.chatgpt}`);
@@ -346,34 +343,140 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   document.querySelectorAll(".pdf").forEach((e) => {
     e.addEventListener("click", () => {
-      createWindow("Resume", `${appContent.thispc}`);
+      createWindow("Resume", `${appContent.resume}`);
     });
   })
 
-  const fileExplorerIcon = document.querySelectorAll('.File');
-  if (fileExplorerIcon) {
-    fileExplorerIcon.forEach((fileExplorerIcon)=>{
-      fileExplorerIcon.addEventListener('click', () => {
-        createWindow('File Explorer', appContent.files);
-        setTimeout(() => {
-          if (window.initFileExplorer) window.initFileExplorer();
-        }, 0);
-      });
-    })
-  }
-  const This = document.querySelectorAll('.This');
-  if (This) {
-    This.forEach((This)=>{
-      This.addEventListener('click', () => {
-        createWindow('This Pc', appContent.files);
-        setTimeout(() => {
-          if (window.initFileExplorer) window.initFileExplorer();
-        }, 0);
-      });
-    })
-  }
+  document.querySelectorAll(".File").forEach((e) => {
+    e.addEventListener("click", () => {
+      const explorerWindow = createWindow("File Explorer", appContent.file);
+      const fmContainer = explorerWindow.querySelector('.text-content');
+      fmContainer.classList.add('fm-container');
+      fmContainer.style.position = 'relative';
+      fmContainer.style.padding = '0';
+      initFileManager({ container: fmContainer, drives: drives });
+    });
+  });
 
+  document.querySelectorAll(".This").forEach((e) => {
+    e.addEventListener("click", () => {
+      const explorerWindow = createWindow("File Explorer", appContent.file);
+      const fmContainer = explorerWindow.querySelector('.text-content');
+      fmContainer.classList.add('fm-container');
+      fmContainer.style.position = 'relative';
+      fmContainer.style.padding = '0';
+      initFileManager({ container: fmContainer, drives: drives });
+    });
+  });
 
+ 
+  document.querySelectorAll('.discord').forEach((e) => {
+    e.addEventListener('click', () => {
+      window.open('https://discord.com/', '_blank');
+    });
+  });
+  document.querySelectorAll('.npm').forEach((e) => {
+    e.addEventListener('click', () => {
+      window.open('https://www.npmjs.com/', '_blank');
+    });
+  });
+  document.querySelectorAll('#settings, .taskbar img[id="settings"]').forEach((e) => {
+    e.addEventListener('click', () => {
+      createWindow('Profile (Terminal)', `
+        <style>
+          .profile-glass-card {
+            background: rgba(10, 10, 10, 0.85);
+            border-radius: 22px;
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+            border: 2.5px solid;
+            border-image: linear-gradient(90deg, #7ee787, #58a6ff, #d2a8ff, #7ee787) 1;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            padding: 38px 32px 32px 32px;
+            max-width: 370px;
+            width: 98vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #e5e5e5;
+            position: relative;
+          }
+          .profile-glass-card h2 {
+            margin: 0 0 8px 0;
+            font-size: 1.6rem;
+            color: #58a6ff;
+            font-weight: 700;
+          }
+          .profile-glass-card .role {
+            color: #7ee787;
+            font-size: 1.08rem;
+            margin-bottom: 12px;
+          }
+          .profile-glass-card .skills {
+            color: #d2a8ff;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+          }
+          .profile-glass-card .contact {
+            color: #8b949e;
+            font-size: 1.01rem;
+            margin-bottom: 0;
+            word-break: break-all;
+          }
+          .profile-glass-outer {
+            width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;min-height:0;flex-grow:1;
+          }
+          @media (max-width: 600px) {
+            .profile-glass-card {
+              padding: 18px 4vw 18px 4vw;
+              max-width: 98vw;
+              font-size: 1rem;
+            }
+          }
+        </style>
+        <div class="profile-glass-outer">
+          <div class="profile-glass-card">
+            <h2>Chetram Patel</h2>
+            <div class="role">World-class Web Developer</div>
+            <div class="skills"><b>Skills:</b> HTML, CSS, JavaScript, React, Node.js</div>
+            <div class="contact"><b>Contact:</b> github.com/developerchetram<br>patelchetram49@gmail.com</div>
+          </div>
+        </div>
+      `);
+    });
+  });
 
-  
+  document.querySelectorAll('.apps img[src$="Recycle Bin.svg"]').forEach((e) => {
+    e.addEventListener('click', () => {
+      createWindow('Recycle Bin', `
+        <style>
+          .recycle-bin-empty {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+            font-size: 1.2rem;
+            background: transparent;
+            text-align: center;
+            gap: 18px;
+          }
+          .recycle-bin-empty img {
+            width: 54px;
+            height: 54px;
+            opacity: 0.7;
+          }
+        </style>
+        <div class="recycle-bin-empty">
+          <img src="./assets/icons/Recycle Bin.svg" alt="Recycle Bin">
+          <div>Recycle Bin is empty</div>
+        </div>
+      `);
+    });
+  });
 })

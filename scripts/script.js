@@ -3,7 +3,7 @@ window.addEventListener("load", () => {
     setTimeout(() => {
         loader.style.display = "none"
 
-    }, 3000)
+    }, 4000)
 })
 
 
@@ -70,28 +70,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const time = document.querySelector(".time")
     const date = document.querySelector(".date")
-    // Tue Jun 24 2025 17:16:26 GMT+0530 (India Standard Time)
-    setInterval(() => {
-        let currentDate = new Date
-        time.innerHTML = `<span class="time">${currentDate.getHours() <= 9 ? "0" : ""}${currentDate.getHours()}:${currentDate.getMinutes() <= 9 ? "0" : ""}${currentDate.getMinutes()}</span>`
-        date.innerHTML = `<span class="date">${currentDate.getDate() <= 9 ? "0" : ""}${currentDate.getDate()}:${currentDate.getMonth() <= 9 ? "0" : ""}${currentDate.getMonth()}:${currentDate.getFullYear()}</span>`
-        // console.log()
-    }, 5000)
+    // Show time and date immediately, then update every 5 seconds
+    function updateTimeAndDate() {
+        let currentDate = new Date();
+        time.innerHTML = `<span class="time">${currentDate.getHours() <= 9 ? "0" : ""}${currentDate.getHours()}:${currentDate.getMinutes() <= 9 ? "0" : ""}${currentDate.getMinutes()}</span>`;
+        date.innerHTML = `<span class="date">${currentDate.getDate() <= 9 ? "0" : ""}${currentDate.getDate()}:${currentDate.getMonth() <= 9 ? "0" : ""}${currentDate.getMonth()}:${currentDate.getFullYear()}</span>`;
+    }
+    updateTimeAndDate();
+    setInterval(updateTimeAndDate, 5000);
 
     // dynamic apps 
     let appsHTML=``;
     const app =
         [
-            "pdf svgrepo-com.svg",
+            "pdf Resume.svg",
             "chatgpt.svg",
             "chrome.svg",
-            "discord.svg",
-            "figma.svg",
+            "Sheryians.webp",
+           
+        
             "File Explorer.svg",
-            "github.svg",
-            "Microsoft Photos.svg",
-            "npm.svg",
-            "Recycle Bin.svg",
+           
+            // "Microsoft Photos.svg",
+          
+            // "Recycle Bin.svg",
             "start.svg",
             "terminal.svg",
             "This Pc.svg",
@@ -106,8 +108,7 @@ document.querySelector(".start-apps").innerHTML=appsHTML
 })
 
 
-function initTerminal() {
-  const terminalBody = document.getElementById("terminalBody");
+function initTerminal(terminalBody) {
   if (!terminalBody) return;
 
   let currentDir = '/home/guest';
@@ -260,142 +261,3 @@ time      - Show current time`;
 }
 
 window.initTerminal = initTerminal;
-
-function initFileExplorer() {
-  // Mock file system
-  let fs = {
-    '/': ['Documents', 'Downloads', 'Pictures', 'Music'],
-    '/Documents': ['Resume.pdf', 'Notes.txt'],
-    '/Downloads': ['Movie.mp4', 'Song.mp3'],
-    '/Pictures': ['Photo1.jpg', 'Photo2.png'],
-    '/Music': ['Track1.mp3', 'Track2.mp3']
-  };
-  let currentPath = '/';
-  let selectedItem = null;
-
-  const contentEl = document.getElementById('fileExplorerContent');
-  const contextMenu = document.getElementById('fileExplorerContextMenu');
-  const newFolderOption = document.getElementById('newFolderOption');
-  const deleteOption = document.getElementById('deleteOption');
-  const pathEl = document.querySelector('.file-explorer .current-path');
-
-  function openFileModal(fileName) {
-    // Remove any existing modal
-    document.querySelectorAll('.file-preview-modal').forEach(m => m.remove());
-    const modal = document.createElement('div');
-    modal.className = 'file-preview-modal';
-    modal.innerHTML = `
-      <div class="file-preview-content">
-        <span class="file-preview-close">&times;</span>
-        <div class="file-preview-filename">${fileName}</div>
-        <div class="file-preview-body">This is a preview of <b>${fileName}</b>.<br>File preview is not implemented for real content.</div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    modal.querySelector('.file-preview-close').onclick = () => modal.remove();
-    modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
-  }
-
-  function renderContent() {
-    if (!contentEl) return;
-    contentEl.innerHTML = '';
-    (fs[currentPath] || []).forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'file-explorer-item';
-      div.textContent = item;
-      div.setAttribute('data-name', item);
-      div.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        selectedItem = item;
-        showContextMenu(e);
-      });
-      div.addEventListener('dblclick', () => {
-        // If folder, navigate in
-        const newPath = currentPath === '/' ? `/${item}` : `${currentPath}/${item}`;
-        if (fs[newPath]) {
-          currentPath = newPath;
-          updatePath();
-          renderContent();
-        } else {
-          // Open file modal
-          openFileModal(item);
-        }
-      });
-      contentEl.appendChild(div);
-    });
-  }
-
-  function updatePath() {
-    if (pathEl) pathEl.textContent = currentPath;
-  }
-
-  function showContextMenu(e) {
-    if (!contextMenu) return;
-    contextMenu.style.display = 'block';
-    contextMenu.style.left = e.pageX + 'px';
-    contextMenu.style.top = e.pageY + 'px';
-  }
-  function hideContextMenu() {
-    if (contextMenu) contextMenu.style.display = 'none';
-  }
-
-  // Right click on blank area
-  if (contentEl) {
-    contentEl.addEventListener('contextmenu', (e) => {
-      if (e.target === contentEl) {
-        selectedItem = null;
-        showContextMenu(e);
-      }
-    });
-  }
-
-  // New Folder
-  if (newFolderOption) {
-    newFolderOption.onclick = () => {
-      let base = fs[currentPath] || [];
-      let name = 'New Folder';
-      let i = 1;
-      while (base.includes(name)) {
-        name = `New Folder (${i++})`;
-      }
-      base.push(name);
-      fs[currentPath] = base;
-      hideContextMenu();
-      renderContent();
-    };
-  }
-  // Delete
-  if (deleteOption) {
-    deleteOption.onclick = () => {
-      if (selectedItem) {
-        let base = fs[currentPath] || [];
-        fs[currentPath] = base.filter(x => x !== selectedItem);
-        // Also delete folder contents if it's a folder
-        const folderPath = currentPath === '/' ? `/${selectedItem}` : `${currentPath}/${selectedItem}`;
-        if (fs[folderPath]) delete fs[folderPath];
-        selectedItem = null;
-        hideContextMenu();
-        renderContent();
-      }
-    };
-  }
-
-  // Hide context menu on click elsewhere
-  document.addEventListener('click', hideContextMenu);
-
-  // Sidebar navigation
-  document.querySelectorAll('.file-explorer .sidebar-item').forEach(item => {
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.file-explorer .sidebar-item').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      currentPath = item.getAttribute('data-path');
-      updatePath();
-      renderContent();
-    });
-  });
-
-  updatePath();
-  renderContent();
-}
-
-window.initFileExplorer = initFileExplorer;
