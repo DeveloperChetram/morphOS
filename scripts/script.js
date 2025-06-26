@@ -101,10 +101,32 @@ document.addEventListener("DOMContentLoaded", () => {
             
         ]
 
-app.forEach((appName)=>{
-appsHTML += `<div class="start-apps-perticular"> <img class="${appName.split(".")[0]}" src="./assets/icons/${appName}" alt=""> <span>${appName.split(".")[0]}</span></div>`
-})
-document.querySelector(".start-apps").innerHTML=appsHTML
+    function renderStartApps(filter = "") {
+      let html = "";
+      app.forEach((appName) => {
+        const appLabel = appName.split(".")[0];
+        if (appLabel.toLowerCase().includes(filter.toLowerCase())) {
+          html += `<div class="start-apps-perticular"> <img class="${appLabel}" src="./assets/icons/${appName}" alt=""> <span>${appLabel}</span></div>`;
+        }
+      });
+      document.querySelector(".start-apps").innerHTML = html;
+    }
+    renderStartApps();
+
+    // Search bar in start menu
+    const startSearchInput = document.querySelector('.start-search');
+    if (startSearchInput) {
+      startSearchInput.addEventListener('input', function() {
+        renderStartApps(this.value);
+      });
+    }
+    // Taskbar search (bottom nav)
+    const taskbarSearchInput = document.querySelector('.search input');
+    if (taskbarSearchInput) {
+      taskbarSearchInput.addEventListener('input', function() {
+        renderStartApps(this.value);
+      });
+    }
 })
 
 
